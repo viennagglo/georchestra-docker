@@ -1,0 +1,59 @@
+version: '2'
+
+volumes:
+  postgresql_data:
+  ldap_data:
+  ldap_config:
+  geoserver_geodata:
+  geoserver_datadir:
+  geoserver_tiles:
+  mapfishapp_uploads:
+  extractorapp_extracts:
+  geonetwork_datadir:
+
+services:
+  apache:
+    build:
+      context: ./apache
+      dockerfile:  Dokerfile
+    image: igeo/apache
+    ports:
+     - "80:80"
+     - "443:443"
+    depends_on:
+     - proxycas
+    
+  ldap:
+    build:
+      context: ./openldap
+      dockerfile:  Dokerfile
+    image: igeo/ldap
+    ports:
+     - "389:389"
+    environment:
+     - SLAPD_ORGANISATION=georchestra
+     - SLAPD_DOMAIN=georchestra.org
+     - SLAPD_PASSWORD=secret
+     - SLAPD_ADDITIONAL_MODULES=groupofmembers
+    volumes:
+     - ldap_data:/var/lib/ldap
+     - ldap_config:/etc/ldap
+
+  postgresql:
+    build:
+      context: ./postgresql
+      dockerfile:  Dokerfile
+    image: igeo/postgresql
+    ports:
+     - "5432:5432"
+
+  proxycas:
+    build:
+      context: ./proxycas
+      dockerfile:  Dokerfile
+    image: igeo/proxycas
+    ports:
+     - "8080:8080"
+    depends_on:
+     - ldap
+     - postgresql
