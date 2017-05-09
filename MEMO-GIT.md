@@ -17,13 +17,13 @@ docker rmi $(docker images -q)
 Identity Name
 
 ```shell
-$ git config --global user.name "aquelito"
+$ git config --global user.name "fallamanche"
 ```
 
 Identity Email
 
 ```shell
-$ git config --global user.email "axel@aquelito.fr"
+$ git config --global user.email "fallamanche@viennagglo.fr"
 ```
 
 Editor Tool
