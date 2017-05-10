@@ -25,11 +25,10 @@ RUN a2dissite 000-default default-ssl && echo "127.0.0.1 geo.viennagglo.dev" >> 
 RUN echo "ServerName georchestra.dev" >> /etc/apache2/apache2.conf
 
 #SSL
-COPY docker-entrypoint.sh /var/www/georchestra/ssl/ssl.sh
-RUN chmod +x /var/www/georchestra/ssl/ssl.sh
-WORKDIR /var/www/georchestra/ssl/
-RUN ./ssl.sh
-
+#COPY docker-entrypoint.sh /var/www/georchestra/ssl/ssl.sh
+#RUN chmod +x /var/www/georchestra/ssl/ssl.sh
+#WORKDIR /var/www/georchestra/ssl/
+#RUN ./ssl.sh
 
 EXPOSE 80 443
 

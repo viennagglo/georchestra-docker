@@ -12,8 +12,8 @@ services:
       dockerfile:  Dokerfile
     image: igeo/apache
     ports:
-     - "80"
-     - "443"
+     - "80:80"
+     - "443:443"
     depends_on:
      - proxycas
     volumes:
@@ -49,8 +49,8 @@ services:
       dockerfile:  Dokerfile
     image: igeo/proxycas
     ports:
-     - "8080"
-     - "8443"
+     - "8080:8080"
+     - "8443:8443"
     depends_on:
      - ldap
      - postgresql
