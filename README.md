@@ -8,6 +8,9 @@ By default, this will always fetch the latest stable version.
 
 Go grab some coffee in the mean time, or read on...
 
+
+# Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
+
 #PRE-REQUIS
 ```
 sudo git clone https://github.com/viennagglo/georchestra-datadir.git /etc/georchestra
@@ -15,12 +18,10 @@ sudo git clone https://github.com/viennagglo/georchestra-datadir.git /etc/georch
 
 Create SSL directory
 ```
-cd /etc/georchestra  
+cd /etc/georchestra
 mkdir ssl
 cd ssl
 ```
-
-# Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
 
 Generate a private key (enter a good passphrase and keep it safe !)
 ```
