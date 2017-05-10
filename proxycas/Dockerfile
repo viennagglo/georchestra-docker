@@ -27,7 +27,7 @@ RUN mkdir work
 #ADD GEORCHESTRA DATADIR CONF
 ADD datadir/cas /etc/georchestra/cas
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,deploy
+RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,https,ssl,jsp
 
 EXPOSE 8080
 

@@ -1,16 +1,4 @@
-# docker-georchestra
-
-Delete all docker containers
-```shell
-docker rm $(docker ps -a -q)
-```
-
-Delete all docker images
-```shell
-docker rmi $(docker images -q)
-```
-
-# Github
+# Github Memo
 
 ## Configuration
 

@@ -30,6 +30,7 @@ RUN chmod +x /var/www/georchestra/ssl/ssl.sh
 WORKDIR /var/www/georchestra/ssl/
 RUN ./ssl.sh
 
+
 EXPOSE 80 443
 
 # Set the default command to run when starting the container

@@ -4,12 +4,6 @@ volumes:
   postgresql_data:
   ldap_data:
   ldap_config:
-  geoserver_geodata:
-  geoserver_datadir:
-  geoserver_tiles:
-  mapfishapp_uploads:
-  extractorapp_extracts:
-  geonetwork_datadir:
 
 services:
   apache:
@@ -18,10 +12,12 @@ services:
       dockerfile:  Dokerfile
     image: igeo/apache
     ports:
-     - "80:80"
-     - "443:443"
+     - "80"
+     - "443"
     depends_on:
      - proxycas
+    volumes:
+      - /etc/georchestra:/etc/georchestra
     
   ldap:
     build:
@@ -29,21 +25,21 @@ services:
       dockerfile:  Dokerfile
     image: igeo/ldap
     ports:
-     - "389:389"
-    environment:
-     - SLAPD_ORGANISATION=georchestra
-     - SLAPD_DOMAIN=georchestra.org
-     - SLAPD_PASSWORD=secret
-     - SLAPD_ADDITIONAL_MODULES=groupofmembers
+     - "389"
     volumes:
-     - ldap_data:/var/lib/ldap
-     - ldap_config:/etc/ldap
+      - ldap_data:/var/lib/ldap
+      - ldap_config:/etc/ldap
 
   postgresql:
     build:
       context: ./postgresql
       dockerfile:  Dokerfile
     image: igeo/postgresql
+    environment:
+      - POSTGRES_USER=dyndb
+      - POSTGRES_PASSWORD=dyndb4751_
+    volumes:
+      - postgresql_data:/var/lib/postgresql/data
     ports:
      - "5432:5432"
 
@@ -53,7 +49,11 @@ services:
       dockerfile:  Dokerfile
     image: igeo/proxycas
     ports:
-     - "8080:8080"
+     - "8080"
+     - "8443"
     depends_on:
      - ldap
      - postgresql
+    volumes:
+      - /etc/georchestra:/etc/georchestra
+
