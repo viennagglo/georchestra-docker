@@ -173,6 +173,7 @@ After, answer yes or oui
 
 Build image :
 ```shell
+cd ~/georchestra-docker/apache
 docker build -t igeo/apache .
 ```
 

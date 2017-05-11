@@ -12,8 +12,7 @@ RUN export DEBIAN_FRONTEND=noninteractive
 RUN echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections
 
 #INSTALL Prerequisites
-RUN apt-get update && apt-get install -y apt-utils
-RUN ldconfig
+RUN apt-get update && apt-get install -y apt-utils && ldconfig
 RUN apt-get install -y build-essential pkg-config wget bash-completion postgresql-9.4 postgresql-server-dev-9.4
 RUN ldconfig
 
@@ -36,16 +35,15 @@ RUN tar xvzf proj-4.9.3.tar.gz && \
     ./configure && make && make install
 RUN ldconfig
 
-RUN apt-get install -y libxml2 libxml2-dev libjsoncpp0 libjsoncpp-dev
-RUN ldconfig
-RUN if [ ! -f gdal-2.1.3.tar.gz ]; then \
-        wget http://download.osgeo.org/gdal/2.1.3/gdal-2.1.3.tar.gz; \
+RUN apt-get install -y libxml2 libxml2-dev libjsoncpp0 libjsoncpp-dev && ldconfig
+RUN if [ ! -f gdal-2.2.0.tar.gz ]; then \
+	wget http://download.osgeo.org/gdal/2.2.0/gdal-2.2.0.tar.gz; \
         fi;
-RUN tar xvzf gdal-2.1.3.tar.gz && \
-    cd gdal-2.1.3 && \
+RUN tar xvzf gdal-2.2.0.tar.gz && \
+    cd gdal-2.2.0 && \
     #apt-get build-dep -y gdal && \
-    ./configure && make && make install
-RUN ldconfig
+    ./configure
+RUN make && make install && ldconfig
 
 RUN if [ ! -f postgis-2.3.2.tar.gz ]; then \
         wget http://download.osgeo.org/postgis/source/postgis-2.3.2.tar.gz; \

@@ -23,19 +23,40 @@ WORKDIR /var/lib/jetty/
 RUN mkdir work
 
 #GEORCHESTRA DATADIR CONF
-VOLUME /etc/georchestra
+#VOLUME /etc/georchestra
 #ADD datadir/cas /etc/georchestra/cas
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,https,ssl,jsp,deploy
+RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,https,ssl,jsp,deploy,server
+
+RUN echo "jetty.http.port=8080" >> /var/lib/jetty/start.d/http.ini && \
+    echo "jetty.http.idleTimeout=30000" >> /var/lib/jetty/start.d/http.ini
+
+RUN echo "https.port=8443" >> /var/lib/jetty/start.d/https.ini && \
+    echo "https.timeout=30000" >> /var/lib/jetty/start.d/https.ini
+
+RUN echo "jetty.httpConfig.securePort=8443" >> /var/lib/jetty/start.d/ssl.ini && \
+    echo "jetty.sslContext.keyStorePath=/etc/georchestra/ssl/keystore" >> /var/lib/jetty/start.d/ssl.ini && \
+    echo "jetty.sslContext.trustStorePath=/etc/georchestra/ssl/keystore" >> /var/lib/jetty/start.d/ssl.ini && \
+    echo "jetty.sslContext.keyStorePassword=yourpassword" >> /var/lib/jetty/start.d/ssl.ini && \
+    echo "jetty.sslContext.keyManagerPassword=yourpassword" >> /var/lib/jetty/start.d/ssl.ini && \
+    echo "jetty.sslContext.trustStorePassword=yourpassword" >> /var/lib/jetty/start.d/ssl.ini
+
+RUN echo "jsp-impl=apache" >> /var/lib/jetty/start.d/jsp.ini
+
 
 EXPOSE 8080 8443
 
-VOLUME [ "/tmp", "/run/jetty" ]
+VOLUME ["/tmp", "/run/jetty"]
 
 CMD ["sh", "-c", "exec java \
--Djava.io.tmpdir=/tmp/jetty \
+-Djava.awt.headless=true \
+-XX:+UseConcMarkSweepGC \
+-Xms$XMS \
+-Xmx$XMX \
 -Dgeorchestra.datadir=/etc/georchestra \
--Xms$XMS -Xmx$XMX \
+-Djavax.net.ssl.trustStore=/etc/georchestra/ssl/keystore \
+-Djavax.net.ssl.trustStorePassword=yourpassword \
+-Djava.io.tmpdir=/tmp/jetty \
 -XX:-UsePerfData \
 ${JAVA_OPTIONS} \
 -jar /usr/local/jetty/start.jar"]

@@ -9,31 +9,31 @@ services:
   apache:
     build:
       context: ./apache
-      dockerfile:  Dokerfile
+      dockerfile:  Dockerfile
     image: igeo/apache
     ports:
      - "80:80"
      - "443:443"
     depends_on:
      - proxycas
-    volumes:
-      - /etc/georchestra:/etc/georchestra
     
   ldap:
     build:
       context: ./openldap
-      dockerfile:  Dokerfile
+      dockerfile:  Dockerfile
     image: igeo/ldap
     ports:
-     - "389"
+     - "389:389"
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap
+    volumes:
+      - /etc/georchestra:/etc/georchestra
 
   postgresql:
     build:
       context: ./postgresql
-      dockerfile:  Dokerfile
+      dockerfile:  Dockerfile
     image: igeo/postgresql
     environment:
       - POSTGRES_USER=dyndb
@@ -46,7 +46,7 @@ services:
   proxycas:
     build:
       context: ./proxycas
-      dockerfile:  Dokerfile
+      dockerfile:  Dockerfile
     image: igeo/proxycas
     ports:
      - "8080:8080"
