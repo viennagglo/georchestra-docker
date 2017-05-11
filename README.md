@@ -1,6 +1,6 @@
 ## geOrchestra Docker
 
-#REQUIREMENTS 
+# REQUIREMENTS 
 On virtual machine (host), clone geOrchestra ViennAgglo default datadir
 ```shell
 git clone --recursive https://github.com/viennagglo/georchestra-datadir.git  /etc/georchestra
