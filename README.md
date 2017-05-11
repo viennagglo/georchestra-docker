@@ -1,6 +1,6 @@
 ## geOrchestra Docker
 
-# REQUIREMENTS 
+# 1 - Requirements 
 On virtual machine (host), clone geOrchestra ViennAgglo default datadir
 ```shell
 git clone --recursive https://github.com/viennagglo/georchestra-datadir.git  /etc/georchestra
@@ -10,7 +10,7 @@ This repository contains the default configuration files for geOrchestra modules
 
 At startup, geOrchestra applications running inside a servlet container having the extra georchestra.datadir parameter, will initialize themselves with the configuration contained in the directory that this parameters points to.  
 
-## 3-steps editing
+## 2 - 3-steps editing
 
 Before using this datadir, you should at least change the default FQDN (`georchestra.mydomain.org`) for yours.
 This can be done very easily with eg:
@@ -32,9 +32,8 @@ Remember to change it in your LDAP too !
 Finally, you should head to [ReCAPTCHA](https://www.google.com/recaptcha/) and get an account for your service.
 Once you're done, fill in the public and private keys in the [ldapadmin/ldapadmin.properties](https://github.com/georchestra/datadir/blob/master/ldapadmin/ldapadmin.properties) file.
 
-**Restart your tomcat or jetty services when done with datadir editing**.
 
-# Creating and mounting a data volume container with geOchestra datadir content
+# 3 - Creating and mounting a data volume container with geOchestra datadir content
 ```shell
 docker create -v /etc/georchestra/:/etc/georchestra/ --name georchestra-datadir debian:jessie
 ```
@@ -43,14 +42,14 @@ docker create -v /etc/georchestra/:/etc/georchestra/ --name georchestra-datadir 
 docker run -ti --volumes-from georchestra-datadir --name proxycas igeo/proxycas /bin/bash
 ```
 
-# Get the geOrchestra-docker repository
+# 4 - Get the geOrchestra-docker repository
 
 you need to download georchestra-docker repository :
 ```shell
 git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/georchestra-docker
 ```
 
-# Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
+# 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
 Create SSL directory
 ```shell
 cd /etc/georchestra
@@ -119,7 +118,7 @@ Restart the web server:
 sudo service apache2 restart
 ``` 
 
-# Keystore
+# 6 - Keystore
 
 To create a keystore, enter the following:
 ```shell
