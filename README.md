@@ -62,36 +62,30 @@ git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/ge
 # 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
 Create SSL directory
 ```shell
-cd /etc/georchestra
-mkdir ssl
-cd ssl
+sudo rm -Rf ~/georchestra-docker/apache/georchestra-site/ssl/*
+cd ~/georchestra-docker/apache/georchestra-site/ssl/
 ```
+
+***Think of changing well the password "yourpassword" & my.fqdn with your fully qualified domain name***
 
 Generate a private key (enter a good passphrase and keep it safe !)
 ```shell
-sudo rm -Rf ../ssl/*
-
 sudo openssl genrsa -des3 \
 	-passout pass:yourpassword \
 	-out georchestra.key 2048
-```
-
-Protect it with:
-```shell
-sudo chmod 400 georchestra.key
 ```
 
 Generate a [Certificate Signing Request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for this key, with eg:
 ```shell
 sudo openssl req \
 	-key georchestra.key \
-	-subj "/C=FR/ST=None/L=None/O=None/OU=None/CN=geo.viennagglo.dev" \
+	-subj "/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn" \
 	-newkey rsa:2048 -sha256 \
 	-passin pass:yourpassword \
 	-out georchestra.csr
 ```
 
-Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=geo.viennagglo.dev``` string with something more relevant:
+Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn``` string with something more relevant:
  * ```C``` is the 2 letter Country Name code
  * ```ST``` is the State or Province Name
  * ```L``` is the Locality Name (eg, city)
@@ -120,15 +114,11 @@ sudo openssl x509 -req \
 We check folder's content :
 ```shell
 sudo chown -Rf www-data:www-data ../ssl/*
+sudo chmod -Rf 400 ../ssl/*
 ls -l ../ssl/
 ```
 
-Restart the web server:
-```shell
-sudo service apache2 restart
-``` 
-
-# 6 - Keystore
+# 6 - Create Keystore for Tomcat or Jetty
 
 To create a keystore, enter the following:
 ```shell
@@ -139,7 +129,7 @@ sudo keytool -genkey \
     -keypass yourpassword \
     -keyalg RSA \
     -keysize 2048 \
-    -dname "CN=geo.viennagglo.dev, OU=geo.viennagglo.dev, O=Unknown, L=Unknown, ST=Unknown, C=FR"
+    -dname "CN=my.fqdn, OU=geo.viennagglo.dev, O=Unknown, L=Unknown, ST=Unknown, C=FR"
 ```
 ... where ```STOREPASSWORD``` is a password you choose, and the ```dname``` string is customized.
 
