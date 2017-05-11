@@ -72,18 +72,18 @@ cd ~/georchestra-docker/apache/georchestra-site/ssl/
 ### Generate a private key (enter a good passphrase and keep it safe !)
 ```shell
 sudo openssl genrsa -des3 \
-	-passout pass:yourpassword \
-	-out georchestra.key 2048
+    -passout pass:yourpassword \
+    -out georchestra.key 2048
 ```
 
 ### Generate a [Certificate Signing Request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for this key, with eg:
 ```shell
 sudo openssl req \
-	-key georchestra.key \
-	-subj "/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn" \
-	-newkey rsa:2048 -sha256 \
-	-passin pass:yourpassword \
-	-out georchestra.csr
+    -key georchestra.key \
+    -subj "/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn" \
+    -newkey rsa:2048 -sha256 \
+    -passin pass:yourpassword \
+    -out georchestra.csr
 ```
 
 Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn``` string with something more relevant:
@@ -97,19 +97,19 @@ Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn``` stri
 ### Create an unprotected key:
 ```shell
 sudo openssl rsa \
-	-in georchestra.key \
-	-passin pass:yourpassword \
-	-out georchestra-unprotected.key
+    -in georchestra.key \
+    -passin pass:yourpassword \
+    -out georchestra-unprotected.key
 ```
 
 ### Finally generate a self-signed certificate (CRT):
 ```shell
 sudo openssl x509 -req \
-	-days 365 \
-	-in georchestra.csr \
-	-signkey georchestra.key \
-	-passin pass:yourpassword
-	-out georchestra.crt
+    -days 365 \
+    -in georchestra.csr \
+    -signkey georchestra.key \
+    -passin pass:yourpassword
+    -out georchestra.crt
 ```
 
 ### We check folder's content :
@@ -136,7 +136,7 @@ sudo keytool -genkey \
     -keypass yourpassword \
     -keyalg RSA \
     -keysize 2048 \
-    -dname "CN=my.fqdn, OU=geo.viennagglo.dev, O=Unknown, L=Unknown, ST=Unknown, C=FR"
+    -dname "CN=my.fqdn, OU=my.fqdn, O=Unknown, L=Unknown, ST=Unknown, C=FR"
 ```
 ... where ```STOREPASSWORD``` is a password you choose, and the ```dname``` string is customized.
 
@@ -163,8 +163,8 @@ The password of the srckeystore is "changeit" by default, and should be modified
 As the SSL certificate is absolutely required, at least for the CAS module, you must add it to the keystore.
 ```shell
 sudo keytool -import -alias cert_ssl \
-	-file georchestra.crt \
-	-keystore keystore
+    -file georchestra.crt \
+    -keystore keystore
 ```
 Firts password is "yourpassword"     
 After, answer yes or oui
