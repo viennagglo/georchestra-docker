@@ -33,7 +33,7 @@ Finally, you should head to [ReCAPTCHA](https://www.google.com/recaptcha/) and g
 Once you're done, fill in the public and private keys in the [ldapadmin/ldapadmin.properties](https://github.com/georchestra/datadir/blob/master/ldapadmin/ldapadmin.properties) file.
 
 
-# 3 - Creating and mounting a data volume container with geOchestra datadir content
+## 3 - Creating and mounting a data volume container with geOchestra datadir content
 
 If you have some persistent data that you want to share between containers, or want to use from non-persistent containers, it’s best to create a named Data Volume Container, and then to mount the data from it.  
 
@@ -52,14 +52,14 @@ volumes_from:
  - georchestra_datadir
 ```
 
-# 4 - Get the geOrchestra-docker repository
+## 4 - Get the geOrchestra-docker repository
 
 you need to download georchestra-docker repository :
 ```shell
 git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/georchestra-docker
 ```
 
-# 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
+## 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
 Create SSL directory
 ```shell
 sudo rm -Rf ~/georchestra-docker/apache/georchestra-site/ssl/*
@@ -118,7 +118,7 @@ sudo chmod -Rf 400 ../ssl/*
 ls -l ../ssl/
 ```
 
-# 6 - Create Keystore for Tomcat or Jetty
+## 6 - Create Keystore for Tomcat or Jetty
 
 To create a keystore, enter the following:
 ```shell
