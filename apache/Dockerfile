@@ -20,15 +20,9 @@ RUN a2enmod proxy proxy_http ssl rewrite headers deflate
 ADD georchestra-site /var/www/georchestra/
 RUN chgrp www-data /var/www/georchestra/logs/ && chmod g+w /var/www/georchestra/logs/ && chown -Rf www-data:www-data /var/www/georchestra
 
-ADD georchestra.conf /etc/apache2/sites-enabled/georchestra.conf
+RUN /var/www/georchestra/conf/georchestra.conf /etc/apache2/sites-enabled/
 RUN a2dissite 000-default default-ssl && echo "127.0.0.1 geo.viennagglo.dev" >> /etc/hosts
 RUN echo "ServerName georchestra.dev" >> /etc/apache2/apache2.conf
-
-#SSL
-#COPY docker-entrypoint.sh /var/www/georchestra/ssl/ssl.sh
-#RUN chmod +x /var/www/georchestra/ssl/ssl.sh
-#WORKDIR /var/www/georchestra/ssl/
-#RUN ./ssl.sh
 
 EXPOSE 80 443
 
