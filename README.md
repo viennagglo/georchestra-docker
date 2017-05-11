@@ -108,7 +108,7 @@ sudo openssl x509 -req \
     -days 365 \
     -in georchestra.csr \
     -signkey georchestra.key \
-    -passin pass:yourpassword
+    -passin pass:yourpassword \
     -out georchestra.crt
 ```
 
