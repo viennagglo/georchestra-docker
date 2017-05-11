@@ -34,12 +34,22 @@ Once you're done, fill in the public and private keys in the [ldapadmin/ldapadmi
 
 
 # 3 - Creating and mounting a data volume container with geOchestra datadir content
+
+If you have some persistent data that you want to share between containers, or want to use from non-persistent containers, it’s best to create a named Data Volume Container, and then to mount the data from it.  
+
+Let’s create a new named container with a volume to share :  
 ```shell
-docker create -v /etc/georchestra/:/etc/georchestra/ --name georchestra-datadir debian:jessie
+docker create -v /etc/georchestra:/etc/georchestra --name georchestra_datadir debian:jessie
 ```
 
+You can then use the --volumes-from flag to mount the /etc/georchestra volume in another container.
 ```shell
-docker run -ti --volumes-from georchestra-datadir --name proxycas igeo/proxycas /bin/bash
+docker run -ti --volumes-from georchestra_datadir --name proxycas igeo/proxycas /bin/bash
+```
+or use this reference in our docker-compose.yml file version 2 :
+```shell
+volumes_from:
+ - georchestra_datadir
 ```
 
 # 4 - Get the geOrchestra-docker repository
