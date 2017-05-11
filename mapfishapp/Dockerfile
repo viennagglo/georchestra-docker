@@ -52,6 +52,6 @@ CMD ["sh", "-c", "exec java \
 -Djava.util.prefs.systemRoot=/tmp \
 -Dgeorchestra.datadir=/etc/georchestra \
 -Dgeonetwork.jeeves.configuration.overrides.file=/etc/georchestra/geonetwork/config/config-overrides-georchestra.xml \
--Dmapfish-print-config=/etc/georchestra/mapfishapp/print/config.yaml
+-Dmapfish-print-config=/etc/georchestra/mapfishapp/print/config.yaml \
 ${JAVA_OPTIONS} \
 -jar /usr/local/jetty/start.jar"]
