@@ -46,7 +46,7 @@ You can then use the --volumes-from flag to mount the /etc/georchestra volume in
 ```shell
 docker run -ti --volumes-from georchestra_datadir --name proxycas igeo/proxycas /bin/bash
 ```
-or use this reference in our docker-compose.yml file version 2 :
+or use this reference in our [docker-compose.yml](https://github.com/viennagglo/georchestra-docker/blob/master/docker-compose.yml) file version 2 :
 ```shell
 volumes_from:
  - georchestra_datadir
