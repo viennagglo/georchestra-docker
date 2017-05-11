@@ -121,7 +121,13 @@ ls -l ../ssl/
 
 ## 6 - Create Keystore for Tomcat or Jetty
 
-To create a keystore, enter the following:
+### Create a keystore in /etc/georchestra directory for sharing file between containers
+```shell
+sudo mkdir /etc/georchestra/ssl
+cd /etc/georchestra/ssl
+```
+
+To create a keystore in /etc/georchestra/ssl/, enter the following:
 ```shell
 sudo keytool -genkey \
     -alias georchestra_localhost \
