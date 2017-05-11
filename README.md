@@ -1,30 +1,41 @@
-## Get the sources
+## geOrchestra Docker
 
-At this stage, if you don't have the geOrchestra sources, you need to download them:
+#REQUIREMENTS 
+On virtual machine (host), clone geOrchestra ViennAgglo default datadir
+```shell
+git clone --recursive https://github.com/viennagglo/georchestra-datadir.git  /etc/georchestra
 ```
+
+This repository contains the default configuration files for geOrchestra modules, and can be used as a reference to build your own "geOrchestra datadir". We call this a "datadir" for the similarity with the well-known GeoServer and GeoNetwork datadirs, but this directory is not meant to host geographic data.  
+
+At startup, geOrchestra applications running inside a servlet container having the extra georchestra.datadir parameter, will initialize themselves with the configuration contained in the directory that this parameters points to.  
+
+# Creating and mounting a data volume container with geOchestra datadir content
+```shell
+docker create -v /etc/georchestra/:/etc/georchestra/ --name georchestra-datadir debian:jessie
+```
+
+```shell
+docker run -ti --volumes-from georchestra-datadir --name proxycas igeo/proxycas /bin/bash
+```
+
+# Get the geOrchestra-docker repository
+
+you need to download georchestra-docker repository :
+```shell
 git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/georchestra-docker
 ```
-By default, this will always fetch the latest stable version.
-
-Go grab some coffee in the mean time, or read on...
-
 
 # Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
-
-#PRE-REQUIS
-```
-sudo git clone https://github.com/viennagglo/georchestra-datadir.git /etc/georchestra
-```
-
 Create SSL directory
-```
+```shell
 cd /etc/georchestra
 mkdir ssl
 cd ssl
 ```
 
 Generate a private key (enter a good passphrase and keep it safe !)
-```
+```shell
 sudo rm -Rf ../ssl/*
 
 sudo openssl genrsa -des3 \
@@ -33,12 +44,12 @@ sudo openssl genrsa -des3 \
 ```
 
 Protect it with:
-```
+```shell
 sudo chmod 400 georchestra.key
 ```
 
 Generate a [Certificate Signing Request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for this key, with eg:
-```
+```shell
 sudo openssl req \
 	-key georchestra.key \
 	-subj "/C=FR/ST=None/L=None/O=None/OU=None/CN=geo.viennagglo.dev" \
@@ -56,7 +67,7 @@ Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=geo.viennagglo.
  * ```CN``` is the Common Name (***your server FQDN***)
 
 Create an unprotected key:
-```
+```shell
 sudo openssl rsa \
 	-in georchestra.key \
 	-passin pass:yourpassword \
@@ -64,7 +75,7 @@ sudo openssl rsa \
 ```
 
 Finally generate a self-signed certificate (CRT):
-```
+```shell
 sudo openssl x509 -req \
 	-days 365 \
 	-in georchestra.csr \
@@ -74,20 +85,20 @@ sudo openssl x509 -req \
 ```
 
 We check folder's content :
-```
+```shell
 sudo chown -Rf www-data:www-data ../ssl/*
 ls -l ../ssl/
 ```
 
 Restart the web server:
-```
+```shell
 sudo service apache2 restart
 ``` 
 
-## Keystore
+# Keystore
 
 To create a keystore, enter the following:
-```
+```shell
 sudo keytool -genkey \
     -alias georchestra_localhost \
     -keystore keystore \
@@ -109,7 +120,7 @@ This will be the case when:
  * geoserver will proxy remote https ogc services
 
 To do this:
-```
+```shell
 sudo keytool -importkeystore \
     -srckeystore /etc/ssl/certs/java/cacerts \
     -destkeystore keystore
@@ -120,10 +131,11 @@ The password of the srckeystore is "changeit" by default, and should be modified
 ### SSL
 
 As the SSL certificate is absolutely required, at least for the CAS module, you must add it to the keystore.
-```
+```shell
 sudo keytool -import -alias cert_ssl \
 	-file georchestra.crt \
 	-keystore keystore
 ```
 Firts password is "yourpassword"     
 After, answer yes or oui
+
