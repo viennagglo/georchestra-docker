@@ -115,7 +115,7 @@ sudo openssl x509 -req \
 ### We check folder's content :
 ```shell
 sudo chown -Rf www-data:www-data ../ssl/*
-sudo chmod -Rf 400 ../ssl/*
+sudo chmod -Rf 755 ../ssl/*
 ls -l ../ssl/
 ```
 
@@ -163,9 +163,21 @@ The password of the srckeystore is "changeit" by default, and should be modified
 As the SSL certificate is absolutely required, at least for the CAS module, you must add it to the keystore.
 ```shell
 sudo keytool -import -alias cert_ssl \
-    -file georchestra.crt \
+    -file ~/georchestra-docker/apache/georchestra-site/ssl/georchestra.crt \
     -keystore keystore
 ```
 Firts password is "yourpassword"     
 After, answer yes or oui
+
+## 6 - Build Apache Docker Container
+
+Build image :
+```shell
+docker build -t igeo/apache .
+```
+
+Run Apache docker container for test :
+```shell
+docker run -dti -p 80:80 -p 443:443 --name apache igeo/apache
+```
 
