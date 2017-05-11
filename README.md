@@ -60,7 +60,8 @@ git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/ge
 ```
 
 ## 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
-Clean SSL directory
+
+###Clean SSL directory
 ```shell
 sudo rm -Rf ~/georchestra-docker/apache/georchestra-site/ssl/*
 cd ~/georchestra-docker/apache/georchestra-site/ssl/
@@ -68,14 +69,14 @@ cd ~/georchestra-docker/apache/georchestra-site/ssl/
 
 ***Think of changing well the password "yourpassword" & my.fqdn with your fully qualified domain name***
 
-Generate a private key (enter a good passphrase and keep it safe !)
+### Generate a private key (enter a good passphrase and keep it safe !)
 ```shell
 sudo openssl genrsa -des3 \
 	-passout pass:yourpassword \
 	-out georchestra.key 2048
 ```
 
-Generate a [Certificate Signing Request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for this key, with eg:
+### Generate a [Certificate Signing Request](http://en.wikipedia.org/wiki/Certificate_signing_request) (CSR) for this key, with eg:
 ```shell
 sudo openssl req \
 	-key georchestra.key \
@@ -93,7 +94,7 @@ Be sure to replace the ```/C=FR/ST=None/L=None/O=None/OU=None/CN=my.fqdn``` stri
  * ```OU``` is the Organizational Unit (eg, company department)
  * ```CN``` is the Common Name (***your server FQDN***)
 
-Create an unprotected key:
+### Create an unprotected key:
 ```shell
 sudo openssl rsa \
 	-in georchestra.key \
@@ -101,7 +102,7 @@ sudo openssl rsa \
 	-out georchestra-unprotected.key
 ```
 
-Finally generate a self-signed certificate (CRT):
+### Finally generate a self-signed certificate (CRT):
 ```shell
 sudo openssl x509 -req \
 	-days 365 \
@@ -111,7 +112,7 @@ sudo openssl x509 -req \
 	-out georchestra.crt
 ```
 
-We check folder's content :
+### We check folder's content :
 ```shell
 sudo chown -Rf www-data:www-data ../ssl/*
 sudo chmod -Rf 400 ../ssl/*
