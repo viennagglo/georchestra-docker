@@ -60,7 +60,7 @@ git clone --recursive https://github.com/viennagglo/georchestra-docker.git  ~/ge
 ```
 
 ## 5 - Create Self-signed certificate for Apache & Keystore (Tomcat or Jetty)
-Create SSL directory
+Clean SSL directory
 ```shell
 sudo rm -Rf ~/georchestra-docker/apache/georchestra-site/ssl/*
 cd ~/georchestra-docker/apache/georchestra-site/ssl/
