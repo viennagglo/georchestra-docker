@@ -169,7 +169,7 @@ sudo keytool -import -alias cert_ssl \
 Firts password is "yourpassword"     
 After, answer yes or oui
 
-## 6 - Build Apache Docker Container
+## 7 - Build Apache Docker Container
 
 Build image :
 ```shell
