@@ -10,6 +10,30 @@ This repository contains the default configuration files for geOrchestra modules
 
 At startup, geOrchestra applications running inside a servlet container having the extra georchestra.datadir parameter, will initialize themselves with the configuration contained in the directory that this parameters points to.  
 
+## 3-steps editing
+
+Before using this datadir, you should at least change the default FQDN (`georchestra.mydomain.org`) for yours.
+This can be done very easily with eg:
+```
+cd /etc/georchestra
+find ./ -type f -exec sed -i 's/geo.viennagglo.fr/my.fqdn/' {} \;
+```
+...where `my.fqdn` is your server's FQDN.
+
+
+Next thing to do, for security, is changing the password of the `geoserver_privileged_user`, that is internally used by several geOrchestra modules:
+```
+cd /etc/georchestra
+find ./ -type f -exec sed -i 's/gerlsSnFd6SmM/'$(pwgen -y 16 -1)'/' {} \;
+```
+Remember to change it in your LDAP too !
+
+
+Finally, you should head to [ReCAPTCHA](https://www.google.com/recaptcha/) and get an account for your service.
+Once you're done, fill in the public and private keys in the [ldapadmin/ldapadmin.properties](https://github.com/georchestra/datadir/blob/master/ldapadmin/ldapadmin.properties) file.
+
+**Restart your tomcat or jetty services when done with datadir editing**.
+
 # Creating and mounting a data volume container with geOchestra datadir content
 ```shell
 docker create -v /etc/georchestra/:/etc/georchestra/ --name georchestra-datadir debian:jessie
