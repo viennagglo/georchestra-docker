@@ -26,7 +26,7 @@ RUN mkdir work
 #VOLUME /etc/georchestra
 #ADD datadir/cas /etc/georchestra/cas
 
-RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,jsp,deploy,server
+RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=http,jsp,deploy,server
 
 RUN echo "jetty.http.port=8280" >> /var/lib/jetty/start.d/http.ini && \
     echo "jetty.http.idleTimeout=30000" >> /var/lib/jetty/start.d/http.ini

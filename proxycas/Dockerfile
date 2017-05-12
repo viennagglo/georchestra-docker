@@ -40,7 +40,7 @@ RUN echo "jetty.httpConfig.securePort=8443" >> /var/lib/jetty/start.d/ssl.ini &&
 RUN echo "jsp-impl=apache" >> /var/lib/jetty/start.d/jsp.ini
 
 
-EXPOSE 8080 8443
+EXPOSE 8080 8443 389
 
 VOLUME ["/tmp", "/run/jetty"]
 

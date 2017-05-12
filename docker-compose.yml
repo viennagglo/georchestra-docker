@@ -13,14 +13,14 @@ services:
     image: igeo/apache
     privileged: true
     ports:
-     - "80:80"
-     - "443:443"
+     - "10.10.22.103:80:80"
+     - "10.10.22.103:443:443"
     
-  openldap:
+  ldap:
     build:
-      context: ./openldap
+      context: ./ldap
       dockerfile:  Dockerfile
-    image: igeo/openldap
+    image: igeo/ldap
     ports:
      - "389:389"
     environment:
@@ -58,7 +58,7 @@ services:
      - XMS=256M
      - XMX=1G
     depends_on:
-     - openldap
+     - ldap
      - postgresql
     volumes:
       - /etc/georchestra:/etc/georchestra
