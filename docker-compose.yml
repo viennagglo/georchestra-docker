@@ -11,19 +11,22 @@ services:
       context: ./apache
       dockerfile:  Dockerfile
     image: igeo/apache
+    privileged: true
     ports:
      - "80:80"
      - "443:443"
-    depends_on:
-     - proxycas
     
-  ldap:
+  openldap:
     build:
       context: ./openldap
       dockerfile:  Dockerfile
-    image: igeo/ldap
+    image: igeo/openldap
     ports:
      - "389:389"
+    environment:
+     - SLAPD_ORGANISATION=georchestra
+     - SLAPD_DOMAIN=georchestra.org
+     - SLAPD_PASSWORD=secret
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap
@@ -35,13 +38,13 @@ services:
       context: ./postgresql
       dockerfile:  Dockerfile
     image: igeo/postgresql
+    ports:
+     - "5432:5432"
     environment:
       - POSTGRES_USER=dyndb
       - POSTGRES_PASSWORD=dyndb4751_
     volumes:
       - postgresql_data:/var/lib/postgresql/data
-    ports:
-     - "5432:5432"
 
   proxycas:
     build:
@@ -51,8 +54,23 @@ services:
     ports:
      - "8080:8080"
      - "8443:8443"
+    environment:
+     - XMS=256M
+     - XMX=1G
     depends_on:
-     - ldap
+     - openldap
+     - postgresql
+    volumes:
+      - /etc/georchestra:/etc/georchestra
+
+  mapfishapp:
+    build:
+      context: ./mapfishapp
+      dockerfile:  Dockerfile
+    image: igeo/mapfishapp
+    ports:
+     - "8280:8280"
+    depends_on:
      - postgresql
     volumes:
       - /etc/georchestra:/etc/georchestra

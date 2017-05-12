@@ -42,8 +42,7 @@ RUN if [ ! -f gdal-2.2.0.tar.gz ]; then \
 RUN tar xvzf gdal-2.2.0.tar.gz && \
     cd gdal-2.2.0 && \
     #apt-get build-dep -y gdal && \
-    ./configure
-RUN make && make install && ldconfig
+    ./configure && make && make install && ldconfig
 
 RUN if [ ! -f postgis-2.3.2.tar.gz ]; then \
         wget http://download.osgeo.org/postgis/source/postgis-2.3.2.tar.gz; \

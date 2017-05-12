@@ -28,12 +28,12 @@ RUN mkdir work
 
 RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,jsp,deploy,server
 
-RUN echo "jetty.http.port=8180" >> /var/lib/jetty/start.d/http.ini && \
+RUN echo "jetty.http.port=8280" >> /var/lib/jetty/start.d/http.ini && \
     echo "jetty.http.idleTimeout=30000" >> /var/lib/jetty/start.d/http.ini
 
 RUN echo "jsp-impl=apache" >> /var/lib/jetty/start.d/jsp.ini
 
-EXPOSE 8180
+EXPOSE 8280
 
 VOLUME ["/tmp", "/run/jetty"]
 

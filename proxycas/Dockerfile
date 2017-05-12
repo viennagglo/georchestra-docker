@@ -1,9 +1,10 @@
 #
-# Dockerfile for the geOrchestra Proxycas (Security-proxy + CAS) service
+# Dockerfile for the geOrchestra Proxy (Security-proxy) service
 #
 # geo.viennagglo.dev
 #
-FROM jetty:9.3-jre8
+#FROM jetty:9.3-jre8
+FROM jetty:9.2.21-jre7
 
 MAINTAINER PSC "Fabien ALLAMANCHE <fallamanche@viennagglo.fr>"
 
@@ -14,19 +15,14 @@ ENV XMS=256M XMX=1G
 RUN apt-get update && apt-get install -y apt-utils && ldconfig
 RUN apt-get install -y wget ca-certificates && rm -rf /var/lib/apt/lists/* && ldconfig
 
-#RUN mkdir /app
 WORKDIR /var/lib/jetty/webapps
-RUN wget https://packages.georchestra.org/bot/wars/16.12/cas-generic.war -O cas.war
 RUN wget https://packages.georchestra.org/bot/wars/16.12/ROOT-generic.war -O ROOT.war
+RUN wget https://packages.georchestra.org/bot/wars/16.12/cas-generic.war -O cas.war
 
 WORKDIR /var/lib/jetty/
 RUN mkdir work
 
-#GEORCHESTRA DATADIR CONF
-#VOLUME /etc/georchestra
-#ADD datadir/cas /etc/georchestra/cas
-
-RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=jmx,jmx-remote,stats,gzip,http,https,ssl,jsp,deploy,server
+RUN java -jar "$JETTY_HOME/start.jar" --add-to-startd=http,https,ssl,jsp,deploy,server
 
 RUN echo "jetty.http.port=8080" >> /var/lib/jetty/start.d/http.ini && \
     echo "jetty.http.idleTimeout=30000" >> /var/lib/jetty/start.d/http.ini
