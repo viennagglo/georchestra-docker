@@ -21,12 +21,11 @@ services:
       context: ./ldap
       dockerfile:  Dockerfile
     image: igeo/ldap
-    ports:
-     - "389:389"
     environment:
      - SLAPD_ORGANISATION=georchestra
      - SLAPD_DOMAIN=georchestra.org
      - SLAPD_PASSWORD=secret
+     - SLAPD_ADDITIONAL_MODULES=groupofmembers
     volumes:
       - ldap_data:/var/lib/ldap
       - ldap_config:/etc/ldap
