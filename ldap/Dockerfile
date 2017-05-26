@@ -20,6 +20,7 @@ ADD docker/docker-entrypoint.d/* /docker-entrypoint.d/
 ADD docker/docker-entrypoint.sh /
 RUN chmod +x /docker-entrypoint.d/*
 
+USER openldap
 ENTRYPOINT [ "/docker-entrypoint.sh" ]
 
 CMD [ "slapd", "-d", "32768", "-u", "openldap", "-g", "openldap" ]

@@ -1,6 +1,6 @@
 ```shell
 docker build -t igeo/ldap .
-docker run -ti -p 389:389 --name ldap igeo/ldap /bin/bash -e SLAPD_ORGANISATION=georchestra -e SLAPD_DOMAIN=georchestra.org -e SLAPD_PASSWORD=secret -e SLAPD_ADDITIONAL_MODULES=groupofmembers
+docker run -ti -p 389:389 -e SLAPD_ORGANISATION=georchestra -e SLAPD_DOMAIN=georchestra.org -e SLAPD_PASSWORD=secret -e SLAPD_ADDITIONAL_MODULES=groupofmembers --name ldap igeo/ldap /bin/bash
 ```
 
 # LDAP
